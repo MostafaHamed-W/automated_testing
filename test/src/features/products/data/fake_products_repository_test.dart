@@ -1,7 +1,12 @@
+import 'package:ecommerce_app/src/constants/test_products.dart';
+import 'package:ecommerce_app/src/features/products/data/fake_products_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  testWidgets('fake products repository ...', (tester) async {
-    // TODO: Implement test
+  group('Test Prodcuts', () {
+    test('get procut list funtion', () {
+      final FakeProductsRepository fakeProductsRepository = FakeProductsRepository();
+      expect(kTestProducts, fakeProductsRepository.getProductsList());
+    });
   });
 }
