@@ -19,5 +19,12 @@ void main() {
     test('get product with id', () {
       expect(fakeProductsRepository.getProduct('1'), kTestProducts[0]);
     });
+
+    test('get product with id when throw error', () {
+      expect(
+        () => fakeProductsRepository.getProduct('100'), // note that : don't forget the closure ()=>
+        throwsStateError,
+      );
+    });
   });
 }
