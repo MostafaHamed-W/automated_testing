@@ -109,6 +109,7 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+coverage/lcov.info
 
 # Firebase local emulator exports
 firebase-exports
@@ -117,4 +118,4 @@ firebase-exports
 .env.dev
 .env.stg
 .env.prod
-coverage/lcov.info
+
