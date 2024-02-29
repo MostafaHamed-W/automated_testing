@@ -178,4 +178,31 @@ state is AsyncError """,
       );
     },
   );
+
+  group(
+    'update form type methods',
+    () {
+      test("""update form type to register successfully
+      with giver formtype of signIn
+
+       """, () {
+        // setUp
+        final controller = EmailPasswordSignInController(
+          authRepository: fakeAuthRepository,
+          formType: EmailPasswordSignInFormType.signIn,
+        );
+
+        // run
+        controller.updateFormType(EmailPasswordSignInFormType.register);
+
+        // verify
+        expect(
+            controller.debugState,
+            EmailPasswordSignInState(
+              formType: EmailPasswordSignInFormType.register,
+              value: const AsyncData<void>(null),
+            ));
+      });
+    },
+  );
 }
