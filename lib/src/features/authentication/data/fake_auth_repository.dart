@@ -9,14 +9,13 @@ class FakeAuthRepository {
   AppUser? get currentUser => _authState.value;
 
   Future<void> signInWithEmailAndPassword(String email, String password) async {
-    await Future.delayed(const Duration(seconds: 3));
+    // await Future.delayed(const Duration(seconds: 3));
     if (currentUser == null) {
       _createNewUser(email);
     }
   }
 
-  Future<void> createUserWithEmailAndPassword(
-      String email, String password) async {
+  Future<void> createUserWithEmailAndPassword(String email, String password) async {
     if (currentUser == null) {
       _createNewUser(email);
     }
