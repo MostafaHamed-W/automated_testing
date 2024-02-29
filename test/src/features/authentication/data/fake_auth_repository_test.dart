@@ -1,3 +1,4 @@
+@Timeout(Duration(milliseconds: 500))
 import 'package:ecommerce_app/src/features/authentication/data/fake_auth_repository.dart';
 import 'package:ecommerce_app/src/features/authentication/domain/app_user.dart';
 import 'package:flutter_test/flutter_test.dart';
