@@ -98,6 +98,84 @@ state is AsyncError """,
           expect(result, false);
         },
       );
+
+      test(
+        """
+given form type is signIn
+when signIn operation success
+then return true
+state is AsyncData """,
+        () async {
+          // setup
+          when((() => fakeAuthRepository.createUserWithEmailAndPassword(testEmail, testPassword)))
+              .thenAnswer((_) => Future.value());
+          final controller = EmailPasswordSignInController(
+            formType: EmailPasswordSignInFormType.register,
+            authRepository: fakeAuthRepository,
+          );
+
+          //verify
+          expectLater(
+            controller.stream,
+            emitsInOrder(
+              [
+                EmailPasswordSignInState(
+                  formType: EmailPasswordSignInFormType.register,
+                  value: const AsyncLoading<void>(),
+                ),
+                EmailPasswordSignInState(
+                  formType: EmailPasswordSignInFormType.register,
+                  value: const AsyncData<void>(null),
+                )
+              ],
+            ),
+          );
+
+          // run
+          final result = await controller.submit(testEmail, testPassword);
+          expect(result, true);
+        },
+      );
+
+      test(
+        """
+given form type is signIn
+when signIn operation failure
+then return false
+state is AsyncError """,
+        () async {
+          // setup
+          when((() => fakeAuthRepository.createUserWithEmailAndPassword(testEmail, testPassword)))
+              .thenThrow(Exception('Failed to connect'));
+          final controller = EmailPasswordSignInController(
+            formType: EmailPasswordSignInFormType.register,
+            authRepository: fakeAuthRepository,
+          );
+
+          expectLater(
+            controller.stream,
+            emitsInOrder(
+              [
+                EmailPasswordSignInState(
+                  formType: EmailPasswordSignInFormType.register,
+                  value: const AsyncLoading<void>(),
+                ),
+                predicate<EmailPasswordSignInState>((state) {
+                  expect(state.formType, EmailPasswordSignInFormType.register);
+                  expect(state.value.hasError, true);
+
+                  return true;
+                })
+              ],
+            ),
+          );
+          // run
+          final result = await controller.submit(testEmail, testPassword);
+
+          //verify
+          expect(result, false);
+        },
+      );
     },
   );
 }
