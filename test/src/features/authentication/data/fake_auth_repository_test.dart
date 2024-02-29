@@ -25,6 +25,27 @@ void main() {
         expect(fakeAuthRepository.currentUser, testUser);
         expect(fakeAuthRepository.authStateChanges(), emits(testUser));
       });
+
+      test('user is null after signOut', () async {
+        await fakeAuthRepository.signInWithEmailAndPassword(testEmail, testPassword);
+        // Note that emitsInOrder if before the sign out
+        // we should listen to stream before doing action
+        // because behaviout subject remember only the last value
+        // if we move the expect after the signOut test will fail
+        expect(fakeAuthRepository.authStateChanges(), emitsInOrder([testUser, null]));
+        await fakeAuthRepository.signOut();
+        expect(fakeAuthRepository.currentUser, null);
+      });
+
+      // or we can do it like this
+      test('user is null after signOut', () async {
+        await fakeAuthRepository.signInWithEmailAndPassword(testEmail, testPassword);
+        expect(fakeAuthRepository.currentUser, testUser);
+        expect(fakeAuthRepository.authStateChanges(), emits(testUser));
+        await fakeAuthRepository.signOut();
+        expect(fakeAuthRepository.currentUser, null);
+        expect(fakeAuthRepository.authStateChanges(), emits(null));
+      });
     },
   );
 }
