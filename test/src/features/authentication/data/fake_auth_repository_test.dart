@@ -26,6 +26,14 @@ void main() {
         expect(fakeAuthRepository.authStateChanges(), emits(testUser));
       });
 
+      test('get current user and userAuthStete changes when it is testUser after register ',
+          () async {
+        await fakeAuthRepository.signOut();
+        await fakeAuthRepository.createUserWithEmailAndPassword(testEmail, testPassword);
+        expect(fakeAuthRepository.currentUser, testUser);
+        expect(fakeAuthRepository.authStateChanges(), emits(testUser));
+      });
+
       test('user is null after signOut', () async {
         await fakeAuthRepository.signInWithEmailAndPassword(testEmail, testPassword);
         // Note that emitsInOrder if before the sign out
@@ -46,6 +54,8 @@ void main() {
         expect(fakeAuthRepository.currentUser, null);
         expect(fakeAuthRepository.authStateChanges(), emits(null));
       });
+
+      tearDownAll(() => fakeAuthRepository.dispose());
     },
   );
 }
