@@ -11,20 +11,29 @@ void main() {
     fakeProductsRepository = FakeProductsRepository();
   });
 
-  group('Test Prodcuts', () {
-    test('get procuts list funtion', () {
-      expect(fakeProductsRepository.getProductsList(), kTestProducts);
-    });
+  group(
+    'Test Prodcuts',
+    () {
+      test('get procuts list funtion', () {
+        expect(fakeProductsRepository.getProductsList(), kTestProducts);
+      });
 
-    test('get product with id', () {
-      expect(fakeProductsRepository.getProduct('1'), kTestProducts[0]);
-    });
+      test('get product with id', () {
+        expect(fakeProductsRepository.getProduct('1'), kTestProducts[0]);
+      });
 
-    test('get product with id when throw error', () {
-      expect(
-        () => fakeProductsRepository.getProduct('100'), // note that : don't forget the closure ()=>
-        throwsStateError,
-      );
-    });
-  });
+      test('get product with id when throw error', () {
+        expect(
+          () =>
+              fakeProductsRepository.getProduct('100'), // note that : don't forget the closure ()=>
+          throwsStateError,
+        );
+      });
+
+      test('fetch products list in future', () async {
+        final result = await fakeProductsRepository.fetchProductsList();
+        expect(result, kTestProducts);
+      });
+    },
+  );
 }
