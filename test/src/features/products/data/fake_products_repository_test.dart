@@ -34,6 +34,20 @@ void main() {
         final result = await fakeProductsRepository.fetchProductsList();
         expect(result, kTestProducts);
       });
+
+      test('watch proucts list', () {
+        expect(
+          fakeProductsRepository.watchProductsList(),
+          emits(kTestProducts),
+        );
+      });
+
+      test('watch product with id', () {
+        expect(
+          fakeProductsRepository.watchProduct('1'),
+          emits(kTestProducts[0]),
+        );
+      });
     },
   );
 }
