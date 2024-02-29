@@ -37,8 +37,10 @@ void main() {
         // run
         await controller.signOut();
         // verify
-
         verify(mockAuthRepository.signOut).called(1);
+
+        // cleanUp
+        addTearDown(() => mockAuthRepository.dispose());
       });
 
       test('signOut Failure', () async {
@@ -62,6 +64,9 @@ void main() {
         await controller.signOut();
         //verify
         verify(mockAuthRepository.signOut);
+
+        // cleanUp
+        addTearDown(() => mockAuthRepository.dispose());
       });
     },
   );
