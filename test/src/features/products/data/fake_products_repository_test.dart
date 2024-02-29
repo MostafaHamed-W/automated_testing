@@ -1,3 +1,4 @@
+@Timeout(Duration(milliseconds: 500))
 import 'dart:math';
 
 import 'package:ecommerce_app/src/constants/test_products.dart';
